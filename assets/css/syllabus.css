@@ -1,0 +1,60 @@
+body {
+	background-color:#EBEDEF;
+}
+
+#page {
+	margin:auto;
+	width:1000px;
+	border-width:2px;
+	border-style: solid;
+	border-color: silver;
+	background-color:white;
+	font-family:cambria;
+}
+
+#logo_sorbonne {
+	text-align:left;
+	width:240px;
+	margin-left:5%;
+	margin-top:5%;
+}
+
+#entete_syllabus {
+	text-align:center;
+}
+
+#entete_syllabus h1 {
+	color:#923775;
+}
+
+#entete_syllabus p {
+	font-size:20px
+}
+
+#contenu_syllabus {
+	text-align:justify;
+	margin-left:10%;
+	margin-right:10%;
+	margin-bottom:10%;
+}
+
+#contenu_syllabus h2 {
+	color:#923775;
+}
+
+p {
+	font-size:18px;
+}
+
+#contenu_syllabus ul {
+	font-size:18px;
+}
+
+#contenu_syllabus p {
+	text-indent:50px;
+}
+
+#contenu_syllabus a {
+	font-family:consolas;
+	font-size:17px;
+}

@@ -4,32 +4,64 @@
 		<meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Le site de Lise</title>
+		<link rel="stylesheet" href="assets/css/style.css" >
     </head>
 
     <body>
-        <h1>Lise Brisset</h1>
-        <h2>L3 Sciences du Langage</h2>
-		<img src="assets/img/sorbonne-nouvelle-devise-trapezes.png"/>
-		<p>Cliquer <a href="http://www.univ-paris3.fr/">ICI</a> pour aller sur le site de la Sorbonne Nouvelle.</p>
-		<img src="assets/img/concert2019.JPG" />
-		<table>
-			<thead>
-				<tr><th>Années</th><th>Expériences</th></tr>
-			</thead>
-			<tbody>
-				<tr><td>2022-2023</td><td>L3 Sciences du langage<br/>Université Sorbonne Nouvelle, Campus Nation</td></tr>
-				<tr><td>2021-2022</td><td>L2 Sciences du langage<br/>Université Sorbonne Nouvelle, Campus Censier</td></tr>
-				<tr><td>2020-2021</td><td>L1 Sciences du langage<br/>Université Sorbonne Nouvelle, Campus Censier</td></tr>
-			</tbody>
-		</table>
+		<div id="page">
 		
-		<p>Liste de mes cinq dernières lectures :</p>
-		<ol>
-			<li>L'Homme qui prenait sa femme pour un chapeau, Oliver Sacks</li>
-			<li>Meso-America as a Linguistic Area, Campbell, Kaufman, Smith-Stark</li>
-			<li>Le Sprachbund mésoaméricain : instanciation spatiale d’un concept opératoire, Jean Léo Léonard</li>
-			<li>La Mésoamérique. Une aire graduelle de convergences structurelles, Claudine Chamoreau</li>
-			<li>Contraintes préférentielles et ordre des mots en français, Thèse Juliette Thuilier</li>
-		</ol>
+			<div class="entete">
+				<table>
+					<tr>
+						<td id="case_avatar">
+							<img id="img_avatar" src="assets/img/concert2019.JPG" />
+						</td>
+						<td>
+							<h1>Lise Brisset</h1>
+							<h2>L3 Sciences du Langage</h2>
+						</td>
+						<td>
+							<img id="img_logo" src="assets/img/sorbonne-nouvelle-devise-trapezes.png"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="aboutme">
+				<table>
+					<tr>
+						<td>
+							<table class="tableaux">
+								<thead>
+									<tr><th class="annee">Années</th><th>Expériences</th></tr>
+								</thead>
+								<tbody>
+									<tr><td class="annee">2022-2023</td><td>L3 Sciences du langage<br/>Université Sorbonne Nouvelle, Campus Nation</td></tr>
+									<tr><td class="annee">2021-2022</td><td>L2 Sciences du langage<br/>Université Sorbonne Nouvelle, Campus Censier</td></tr>
+									<tr><td class="annee">2020-2021</td><td>L1 Sciences du langage<br/>Université Sorbonne Nouvelle, Campus Censier</td></tr>
+								</tbody>
+							</table>
+						</td>
+						
+						<td>
+							<ol>
+								<p><b>Liste de mes cinq dernières lectures :</b></p>
+								<li>L'Homme qui prenait sa femme pour un chapeau, Oliver Sacks</li>
+								<li>Meso-America as a Linguistic Area, Campbell, Kaufman, Smith-Stark</li>
+								<li>Le Sprachbund mésoaméricain : instanciation spatiale d’un concept opératoire, Jean Léo Léonard</li>
+								<li>La Mésoamérique. Une aire graduelle de convergences structurelles, Claudine Chamoreau</li>
+								<li>Contraintes préférentielles et ordre des mots en français, Thèse Juliette Thuilier</li>
+							</ol>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="syllabus">
+				<p>Cliquer <a href="syllabus.html">ICI</a> pour ouvrir le syllabus du cours Programmation pour les Humanités Numériques (LZML021).</p>
+			</div>
+			
+			<footer><p>Cliquer <a href="http://www.univ-paris3.fr/">ICI</a> pour aller sur le site de la Sorbonne Nouvelle.</p></footer>
+		</div>
     </body>
 </html>
