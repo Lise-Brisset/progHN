@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <meta charset="UTF-8" />
+        <title>Programmation pour les humanités numériques</title>
+
+        <style>
+        .mycode {background-color: black; color: white;}
+        .myoutput {background-color: #CCCCCC; color: red;}
+        </style>
+        
+        <script type="text/javascript" language="javascript" src="assets/JS/devoirarray.js"></script>
+    </head>
+
+
+    <body style="background-color:CCCCCC;">
+        <section class="section column is-half is-offset-one-quarter" style="background-color:F8F8F8;">
+            <div class="container" style="text-align:center;">
+                <div class="block" >
+                <span class="title">
+                    <p>Exercices séance 5</p>
+                    
+                    <p><strong style="color:red">Attention ! Le dossier de script tel que donné ici est "assets/JS/devoirarray.js" ! Pensez à le modifier au besoin !</strong></p>
+                </span>
+                </div>
+                <div class="hero-body" style="text-align:justify;">
+                    <h2 class="has-background-info has-text-white">Exercice 1</h2>
+                    <br/>
+                    <p>Créer dans la fonction "exercice1" un tableau quelconque. Retirez sa dernière valeur et mettez-là au début. Le résultat final doit être intégré au paragraphe d'identifiant "exercice1Resultat".</p>
+                    <br/>
+                    <button onclick="exercice1()">Retirer le dernier élément et le mettre au début.</button>
+                    <br/>
+                    <p id="exercice1Resultat"></p>
+
+                    <h2 class="has-background-info has-text-white">Exercice 2</h2>
+                    <br/>
+                    <p>Découpez le texte suivants en mots (selon des espaces) puis transformez chaque mot en majuscule à l'aide d'une fonction.</p>
+                    <p>Écrivez les résultat dans le paragraphe d'identifiant "exercice2Resultat".</p>
+                    <br/>
+                    <textarea id="texteExercice2" name="mon_texte" rows="10" cols="50">Ici, on entre du texte qu'on va segmenter en "mots".</textarea>
+                    <br/>
+                    <button onclick="exercice2()">Segmenter le texte et transformer les mots en majuscule.</button>
+                    <p id="exercice2Resultat"></p>
+
+                    <h2 class="has-background-info has-text-white">Exercice 3</h2>
+                    <br/>
+                    <p>Découpez le texte suivants en mots (selon des espaces) puis retirer les mots qui ont une taille de 3 ou moins.</p>
+                    <p>Écrivez les résultat dans le paragraphe d'identifiant "exercice3Resultat".</p>
+                    <br/>
+                    <textarea id="texteExercice3" name="mon_texte" rows="10" cols="50">Ici, on entre du texte qu'on va segmenter en "mots".</textarea>
+                    <br/>
+                    <button onclick="exercice3()">Segmenter le texte et retirer les mot de taille 3 ou moins.</button>
+                    <p id="exercice3Resultat"></p>
+
+                    <h2 class="has-background-info has-text-white">Exercice 4</h2>
+                    <br/>
+                    <p>Découpez le texte suivants en mots (selon des espaces) puis créer un tableau en utilisant la construction forEach.</p>
+                    <br/>
+                    <p>Pour créer le résultat final vous pouvez au choix :</p>
+                    <ul>
+                        <li>• générer un chaîne de caractères ;</li>
+                        <li>• utiliser les méthodes "<a href="https://www.w3schools.com/jsref/met_document_createelement.asp">createElement</a>" et "<a href="https://www.w3schools.com/jsref/met_node_appendchild.asp">appendChild</a>".</li>
+                    </ul>
+                    <br/>
+                    <p>Écrivez les résultat dans le div d'identifiant "exercice4Resultat".</p>
+                    <br/>
+                    <textarea id="texteExercice4" name="mon_texte" rows="10" cols="50">Ici, on entre du texte qu'on va segmenter en "mots".</textarea>
+                    <br/>
+                    <button onclick="exercice4()">Segmenter le texte dans un tableau.</button>
+                    <div id="exercice4Resultat"></div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
