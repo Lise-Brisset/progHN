@@ -103,3 +103,77 @@ footer {
 #case_avatar {
 	text-align:left;
 }
+
+
+/* Ajout du style du projet en dessous */
+
+.mylabel {
+	background-color: rgb(255, 204, 51);
+	font-family: arial,helvetica,sans-serif;
+	font-variant: small-caps;
+	font-size: 90%;
+	padding: 2px;
+	border-right: 1px solid rgb(204, 153, 0);
+	border-bottom: 1px solid rgb(204, 153, 0);
+}
+
+.infolog {
+	text-align:center;
+	border: 2pt solid rgb(0, 128, 0);
+	padding: 1pt;
+	margin-left: 0px;
+	margin-right: 0px;
+	background: rgb(128, 255, 128);
+}
+
+.errorlog {
+	text-align:center;
+	border: 2pt solid rgb(255, 0, 0);
+	padding: 2pt;
+	margin-left: 0px;
+	margin-right: 0px;
+	background-color: rgb(255, 96, 96);
+}
+
+#container {
+	background-color: white;
+	border: 3px solid black;
+	padding: 2px;
+	padding-bottom: 5%; 
+	width: 80%;
+	margin-left:10%;
+	height: 100%;
+	min-height: 100%;
+	position: relative;
+}
+
+#page-wrapper {
+	width: 600px;
+	background: #cee1fd;
+	padding: 1em;
+	margin: 1em auto;
+	border-top: 5px solid #69c773;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+#Global {
+	margin-right: auto; 
+	margin-left: auto; 
+	width: 80%; 
+	border: 3px; 
+	display:table;
+}
+#Global #fileDisplayArea {
+	float:left;
+	width:48%;
+	background: #FFF;
+	font-size:0.6em;
+	height:200px;
+	overflow:scroll;
+}
+#Global #page-analysis {
+	margin-left:52%;
+	background: #FFF;
+	height:200px;
+	overflow:scroll;
+}
