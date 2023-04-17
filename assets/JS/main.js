@@ -1,4 +1,5 @@
 let text_tokens = [];
+let text_lines = [];
 
 
 window.onload = function() {
@@ -25,8 +26,10 @@ window.onload = function() {
             reader.onload = function(e) {
                 fileDisplayArea.innerText = reader.result;
                 segmentation();
-				segmentation_ligne();
-                document.getElementById("logger").innerHTML = '<span class="infolog">Fichier chargé avec succès, ' + text_tokens.length + ' tokens dans le texte. </br>Il y a '+texte_en_ligne.length + ' lignes dans le texte chargé.</span>';
+
+                if (text_tokens.length != 0) {
+                    document.getElementById("logger").innerHTML = '<span class="infolog">Fichier chargé avec succès, ' + text_tokens.length + ' tokens dans le texte et ' + text_lines.length + ' lignes non vides.</span>';
+                }
             }
 
             // on lit concrètement le fichier.
@@ -34,6 +37,8 @@ window.onload = function() {
             reader.readAsText(file);
         } else { // pas un fichier texte : message d'erreur.
             fileDisplayArea.innerText = "";
+            text_tokens = [];
+            text_lines = [];
             document.getElementById("logger").innerHTML = '<span class="errorlog">Type de fichier non supporté !</span>';
         }
     });
@@ -58,7 +63,11 @@ function afficheCacheAide() {
 function segmentation() {
     let text = document.getElementById("fileDisplayArea").innerText;
     let delim = document.getElementById("delimID").value;
-    let display = document.getElementById("page-analysis");
+    
+    if (delim === "") {
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Aucun délimiteur donné !</span>'
+        return;
+    }
 
     let regex_delim = new RegExp(
         "["
@@ -71,113 +80,165 @@ function segmentation() {
 
     let tokens_tmp = text.split(regex_delim);
     text_tokens = tokens_tmp.filter(x => x.trim() != ''); // on s'assure de ne garder que des tokens "non vides"
+    
+    text_lines = text.split(new RegExp("[\\r\\n]+")).filter(x => x.trim() != '');
 
     // global_var_tokens = tokens; // décommenter pour vérifier l'état des tokens dans la console développeurs sur le navigateur
     // display.innerHTML = tokens.join(" ");
 }
 
-function segmentation_ligne() {
-	let textA = document.getElementById("fileDisplayArea").innerText;
-	texte_en_ligne = textA.split("</br>");
-	/** ici j'ai mis une variable générale pour pouvoir l'utiliser ailleurs dans le programme, ex : dans le message qui indique le nombre de lignes **/
-}
-/** cette fonction focntionne mais pas sur tous les fichiers pour certains elle affiche "1 ligne" **/
-
 
 function dictionnaire() {
-	if (document.getElementById("delimID")='')
-	{
-		alert("Attention, vous n'avez pas renseigné le(s) délimiteur(s) !")
-	}
-	
-	else 
-	{
-		let comptes = new Map();
-		let display = document.getElementById("page-analysis");
+    let comptes = new Map();
+    let display = document.getElementById("page-analysis");
 
-		for (let token of text_tokens) {
-			comptes.set(token, (comptes.get(token) ?? 0) + 1);
-		}
-		
-		let comptes_liste = Array.from(comptes);
-		comptes_liste = comptes_liste.sort(function(a, b) {
-			// solution attendue
-			return b[1] - a[1]; // tri numérique inversé
+    if (text_tokens.length === 0) {
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Il faut d\'abord charger un fichier !</span>';
+        return;
+    }
 
-			/*
-			 * // solution alternative
-			 * // on trie sur les comptes en priorité
-			 * // puis, pour les comptes identiques, on trie sur la forme
-			 * let a_form = a[0];
-			 * let a_count = a[1];
-			 * let b_form = b[0];
-			 * let b_count = b[1];
-			 * let comparaison = 0;
-			 *
-			 * // utiliser +2 et -2 permet de donner plus de poids aux comptes (permet le trie du plus fréquent au moins fréquent)
-			 * if (a_count < b_count) {
-			 *     comparaison += 2;
-			 * } else if (a_count > b_count) {
-			 *     comparaison -= 2;
-			 * }
-			 * // -1 et +1 permettent d'ajuster le tri en cas de comptes égaux, mais ne peut pas inverser l'ordre pour des comptes différents
-			 * if (a_form < b_form) {
-			 *     comparaison -= 1;
-			 * } else if (a_form > b_form) {
-			 *     comparaison += 1;
-			 * }
-			 *
-			 * return comparaison;
-			 */
-		});
+    for (let token of text_tokens) {
+        comptes.set(token, (comptes.get(token) ?? 0) + 1);
+    }
+    
+    let comptes_liste = Array.from(comptes);
+    comptes_liste = comptes_liste.sort(function(a, b) {
+        // solution attendue
+        return b[1] - a[1]; // tri numérique inversé
 
-		let table = document.createElement("table");
-		table.style.margin = "auto";
-		let entete = table.appendChild(document.createElement("tr"));
-		entete.innerHTML = "<th>mot</th><th>compte</th>";
-		
-		for (let [mot, compte] of comptes_liste) {
-			let ligne_element = table.appendChild(document.createElement("tr"));
-			let cellule_mot = ligne_element.appendChild(document.createElement("td"));
-			let cellule_compte = ligne_element.appendChild(document.createElement("td"));
-			cellule_mot.innerHTML = mot;
-			cellule_compte.innerHTML = compte;
-		}
+        /*
+         * // solution alternative
+         * // on trie sur les comptes en priorité
+         * // puis, pour les comptes identiques, on trie sur la forme
+         * let a_form = a[0];
+         * let a_count = a[1];
+         * let b_form = b[0];
+         * let b_count = b[1];
+         * let comparaison = 0;
+         *
+         * // utiliser +2 et -2 permet de donner plus de poids aux comptes (permet le trie du plus fréquent au moins fréquent)
+         * if (a_count < b_count) {
+         *     comparaison += 2;
+         * } else if (a_count > b_count) {
+         *     comparaison -= 2;
+         * }
+         * // -1 et +1 permettent d'ajuster le tri en cas de comptes égaux, mais ne peut pas inverser l'ordre pour des comptes différents
+         * if (a_form < b_form) {
+         *     comparaison -= 1;
+         * } else if (a_form > b_form) {
+         *     comparaison += 1;
+         * }
+         *
+         * return comparaison;
+         */
+    });
 
-		display.appendChild(table);
-	}
+    let table = document.createElement("table");
+    table.style.margin = "auto";
+    let entete = table.appendChild(document.createElement("tr"));
+    entete.innerHTML = "<th>mot</th><th>compte</th>";
+    
+    for (let [mot, compte] of comptes_liste) {
+        let ligne_element = table.appendChild(document.createElement("tr"));
+        let cellule_mot = ligne_element.appendChild(document.createElement("td"));
+        let cellule_compte = ligne_element.appendChild(document.createElement("td"));
+        cellule_mot.innerHTML = mot;
+        cellule_compte.innerHTML = compte;
+    }
+
+    display.innerHTML = "";
+    display.appendChild(table);
+    document.getElementById("logger").innerHTML = '';
 }
 
 
 function grep() {
-	if (document.getElementById("poleID").value ='')
+    let pole = document.getElementById("poleID").value.trim();
+    let display = document.getElementById("page-analysis");
+    
+    if (text_lines.length === 0) {
+        // pas de lignes: erreur
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Il faut d\'abord charger un fichier !</span>';
+        return;
+    }
+
+    if (pole === '') {
+        // pas de pôle: erreur
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Le pôle n\'est pas renseigné !</span>';
+        return;
+    }
+    let pole_regex = new RegExp('(' + pole + ')', "g");
+
+    display.innerHTML = "";
+    for (let line of text_lines) {
+        if (line.search(pole_regex) != -1) {
+            let paragraph = document.createElement("p");
+            paragraph.innerHTML = line.replaceAll(pole_regex, '<span style="color:red;">$1</span>')
+            display.appendChild(paragraph);
+        }
+    }
+}
+
+function concordencier() 
+{
+    let pole = document.getElementById("poleID").value.trim();
+    let longueur = document.getElementById("lgID").value.trim();
+    let display = document.getElementById("page-analysis");
+    
+    if (text_lines.length === 0) {
+        // pas de lignes: erreur
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Il faut d\'abord charger un fichier !</span>';
+        return;
+    }
+
+    if (pole === '') {
+        // pas de pôle: erreur
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Le pôle n\'est pas renseigné !</span>';
+        return;
+    }
+    let pole_regex = new RegExp('(".{'+ longueur +'})(' + pole + ')(.{' + longueur + '})")', "g");
+	let partieGauche = pole_regex.replace(pole_regex,"\1");
+	let partieDroite = pole_regex.replace(pole_regex,"\3");
+
+	var table='';
+    table += '<table align="center" class="myTable">';
+    table += '<tr><th><b>Concordance</b></th></tr><tr>';
+	table +='    <th>Indice</th>';
+    table +='    <th>Contexte de gauche</th>';
+    table +='    <th>Pôle</th>';
+    table +='    <th>Contexte de droite</th>';
+    table += '</tr>';
+	
+	let lignesTexte = document.getElementById("fileDisplayArea").innerHTML;
+	lignesTexte = lignesTexte.split("\n");
+	let indice = 0;
+	
+    display.innerHTML = "";
+	
+	if (document.getElementById("lgID").value =="")
 	{
-		alert("Attention, aucun pôle n'a été renseigné !");
-	}
-	else 
+		alert("Attention, vous devez entrer une longeur !");
+		return;
+	};
+	
+	if (document.getElementById("poleID").value =="")
 	{
-		texte_en_ligne.forEach(function(ligne)
+		alert("Attention, vous devez entrer un pôle !");
+		return;
+	};
+	
+    for (let line of text_lines) 
+	{
+		if (line.search(pole_regex) != -1) 
 		{
-			let pole = document.getElementById("poleID").innerHTML;
-			let myReg = new RegExp(pole, "g");
-			if (ligne.search(myReg) == true) 
-			{
-				document.getElementById("page-analysis").innerHTML = "<p style='color:red'>" + ligne + "</p>";
-			}
-			// else 
-			// {
-				// continue;
-			// }
+			table += '<tr><td>' + indice + '</td>';
+			table += '<td>' + line.replaceAll(pole_regex,partieGauche) +'</td>';
+			table += '<td>' + pole +'</td>';
+			table += '<td>' + line.replaceAll(pole_regex,partieDroite) +'</td>';
+			table += '</tr>'
+			indice = indice + 1;
 		}
-	);
 	}
 }
 
-/** ici ma ligne ne s'affiche pas dans la div id="page-analysis" **/
-/** l'alert ne s'affiche pas non plus **/
-
-
-
-
-
-
+// IDEES POUR LES PRICHAINES FONCTIONS : maj/min du texte ; Calculer le nombre de phrases ; Afficher un tableau des verbes et/ou adverbes ; Trouver tous les noms propres du texte

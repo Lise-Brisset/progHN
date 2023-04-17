@@ -94,13 +94,34 @@
 						<button onclick='alert("Voici un outil pour faire des analyses textuelle, développé dans le cadre du cours Programmation pour les Humanités Numériques en 2023.");'><span>Bonjour !</span></button>
 						<br/>
 						<br/>
-						<button id="boutonAide" onclick="bouton_aide()">Aide</button>
-						<div id="aide"><p><center>Grace à cet outil, vous pouvez entrer un texte en format txt et l'analyser de différentes manières. <br/>Vous pouvez entrer votre texte en cliquant sur le bouton "Choisir un fichier". Ce dernier s'affichera dans la zone de texte à gauche. Pour utiliser les divers outils d'analyses textuelle, il vous suffit de cliquer sur les boutons, comme le bonton "Dictionnaire". Le résultat s'affichera dans la zone de texte à droite sous forme d'un tableau.</center></p></div>
+						<!-- <button id="boutonAide" onclick="bouton_aide()">Aide</button> -->
+						<button id="boutonAide" onclick="afficheCacheAide()">Afficher l'aide</button>
+						<div id="aide">
+							<p>
+								<center>
+									<h2>Ceci est l'aide de l'utilisation du site.</h2>
+									<h3>Bonjour.</h3>
+									<p>Le bouton <button onclick="javascript:void(0);">Bonjour</button> permet d'afficher un message de bienvenue.</p>
+									<h3>Charger un fichier texte.</h3>
+									<p>Pour commencer, il faut donner un fichier texte via le bouton <button onclick="javascript:void(0);">Choose File</button></p>
+									<p>Le texte chargé sera affiché à gauche. Il sera segmenté automatiquement, son nombre de tokens sera alors affiché.</p>
+									<h3>Compter les mots.</h3>
+									<p>Pour avoir le comptage des mots, triés du plus fréquent au moins fréquent, on clique sur le bouton <button onclick="javascript:void(0);">Dictionnaire</button></p>
+									<p>Le tableau sera affiché à droite.</p>
+									<h3>Afficher les lignes qui contiennent un motif.</h3>
+									<p>Pour afficher les lignes qui contiennent un motif, on clique sur le bouton <button onclick="javascript:void(0);">grep</button></p>
+									<p>Il faut avoir chargé un fichier en mémoire et renseigné le champs <label class="mylabel"><small>Pôle</small></label>.</p>
+									<p><a href="https://fr.wikipedia.org/wiki/Grep">grep</a> est une commande historique de Unix ayant cette fonctionnalité. Nous employons ce nom en hommage.</p>
+									<p>Les lignes seront affichées à droite.</p>
+									<p>Le bouton <button onclick="javascript:void(0);">Concordancier</button> vous permettra d'afficher le contexte droite et gauche du pôle sélectionné. Vous devez détailler le pôle et le nombre de caractères de droite et de gauche que vous souhaitez afficher.</p>
+								</center>
+							</p>
+						</div>
 						<br />
 						<!--<button class="submit" onclick="segmentation();"><span>Segmentation</span></button>-->
 						<button class="submit" onclick="dictionnaire();"><span>Dictionnaire</span></button>
 						<button class="submit" onclick="grep()"><span>Grep</span></button>
-						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 3</span></button>
+						<button class="submit" onclick="concordancier()"><span>Concordancier</span></button>
 						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 4</span></button>
 						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 5</span></button>
 						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 6</span></button>
