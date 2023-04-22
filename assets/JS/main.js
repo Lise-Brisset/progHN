@@ -179,13 +179,12 @@ function grep() {
     }
 }
 
-function concordencier() 
+function concordancier() 
 {
     let pole = document.getElementById("poleID").value.trim();
-    let longueur = document.getElementById("lgID").value.trim();
     let display = document.getElementById("page-analysis");
-    
-    if (text_lines.length === 0) {
+
+    if (text_tokens.length === 0) {
         // pas de lignes: erreur
         document.getElementById("logger").innerHTML = '<span class="errorlog">Il faut d\'abord charger un fichier !</span>';
         return;
@@ -196,49 +195,173 @@ function concordencier()
         document.getElementById("logger").innerHTML = '<span class="errorlog">Le pôle n\'est pas renseigné !</span>';
         return;
     }
-    let pole_regex = new RegExp('(".{'+ longueur +'})(' + pole + ')(.{' + longueur + '})")', "g");
-	let partieGauche = pole_regex.replace(pole_regex,"\1");
-	let partieDroite = pole_regex.replace(pole_regex,"\3");
 
-	var table='';
-    table += '<table align="center" class="myTable">';
-    table += '<tr><th><b>Concordance</b></th></tr><tr>';
-	table +='    <th>Indice</th>';
-    table +='    <th>Contexte de gauche</th>';
-    table +='    <th>Pôle</th>';
-    table +='    <th>Contexte de droite</th>';
-    table += '</tr>';
-	
-	let lignesTexte = document.getElementById("fileDisplayArea").innerHTML;
-	lignesTexte = lignesTexte.split("\n");
-	let indice = 0;
-	
+    let pole_regex = new RegExp("^" + pole + "$", "g");
+    let tailleContexte = Number(document.getElementById('lgID').value ?? "10");
+
+    let table = document.createElement("table");
+    table.style.margin = "auto";
+    let entete = table.appendChild(document.createElement("tr"));
+    entete.innerHTML = "<th>contexte gauche</th><th>pôle</th><th>contexte droit</th>";
+
     display.innerHTML = "";
-	
-	if (document.getElementById("lgID").value =="")
-	{
-		alert("Attention, vous devez entrer une longeur !");
-		return;
-	};
-	
-	if (document.getElementById("poleID").value =="")
-	{
-		alert("Attention, vous devez entrer un pôle !");
-		return;
-	};
-	
-    for (let line of text_lines) 
-	{
-		if (line.search(pole_regex) != -1) 
-		{
-			table += '<tr><td>' + indice + '</td>';
-			table += '<td>' + line.replaceAll(pole_regex,partieGauche) +'</td>';
-			table += '<td>' + pole +'</td>';
-			table += '<td>' + line.replaceAll(pole_regex,partieDroite) +'</td>';
-			table += '</tr>'
-			indice = indice + 1;
-		}
-	}
+    for (let i=0; i < text_tokens.length; i++) {
+        if (text_tokens[i].search(pole_regex) != -1) {
+            let start = Math.max(i - tailleContexte, 0);
+            let end = Math.min(i + tailleContexte, text_tokens.length);
+            let lc = text_tokens.slice(start, i);
+            let rc = text_tokens.slice(i+1, end+1);
+            let row = document.createElement("tr");
+
+            // manière fainéante
+            row.appendChild(document.createElement("td"));
+            row.childNodes[row.childNodes.length - 1].innerHTML = lc.join(' ');
+            row.appendChild(document.createElement("td"));
+            row.childNodes[row.childNodes.length - 1].innerHTML = text_tokens[i];
+            row.appendChild(document.createElement("td"));
+            row.childNodes[row.childNodes.length - 1].innerHTML = rc.join(' ');
+            table.appendChild(row);
+        }
+    }
+
+    display.innerHTML = "";
+    display.appendChild(table);
 }
 
 // IDEES POUR LES PRICHAINES FONCTIONS : maj/min du texte ; Calculer le nombre de phrases ; Afficher un tableau des verbes et/ou adverbes ; Trouver tous les noms propres du texte
+
+function minuscule()
+{
+	// je récupère le texte pour le placer dans une variable
+	let texte = document.getElementById("fileDisplayArea").innerHTML;
+	let minuscule = texte.toLowerCase();
+	// Après avoir passé le texte en minuscules je l'affiche dans la div page-analysis.
+	document.getElementById("page-analysis").innerHTML = minuscule;
+}
+
+function majuscule()
+{
+	// je récupère le texte pour le placer dans une variable
+	let texte = document.getElementById("fileDisplayArea").innerHTML;
+	let majuscule = texte.toUpperCase();
+	// Après avoir passé le texte en majuscules je l'affiche dans la div page-analysis.
+	document.getElementById("page-analysis").innerHTML = majuscule;
+}
+
+function nbrPhrases() 
+{
+	// Je place le contenu du texte dans une variable pour y effectuer le changements necessaires.
+	let texte = document.getElementById("fileDisplayArea").innerHTML;
+	// Je déclare l'expression régulière permettant de reconaitre une phrase.
+	// let regex_phrase = new RegExp("^.+\.$");
+	let liste_phrase = [];
+	// Je place tous les matchs dans une liste.
+	liste_phrase = [...texte.matchAll("[.+|!+|?+]")];
+	// Je viens compter le nombre d'éléments dans la liste.
+	let nbr_phrase = liste_phrase.length;
+	// J'affiche le résultat dans la div page-analysis.
+	document.getElementById("page-analysis").innerHTML = "<center><p>Il y a <b>" + nbr_phrase + "</b> phrases dans le texte.</p></center>";
+	console.log(nbr_phrase);
+	console.log(liste_phrase);
+	
+	// J'effectue le même traitement pour calculer le nombre de phrases interrogatives : 
+	let liste_inter = [];
+	liste_inter = [...texte.matchAll("[?+]")];
+	let nbr_inter = liste_inter.length;
+	document.getElementById("page-analysis").innerHTML += "<center><p>Il y a <b>" + nbr_inter + "</b> phrases interrogatives dans le texte.</p></center>";
+	console.log(nbr_inter);
+	console.log(liste_inter);
+
+	// J'effectue le même traitement pour calculer le nombre de phrases exclamatives : 
+	let liste_excla = [];
+	liste_excla = [...texte.matchAll("[!+]")];
+	let nbr_excla = liste_excla.length;
+	document.getElementById("page-analysis").innerHTML += "<center><p>Il y a <b>" + nbr_excla + "</b> phrases exclamatives dans le texte.</p></center>";
+	console.log(nbr_excla);
+	console.log(liste_excla);
+
+	// J'effectue le même traitement pour calculer le nombre de phrases déclaratives : 
+	let liste_decla = [];
+	liste_decla = [...texte.matchAll("[.]")];
+	let nbr_decla = liste_decla.length;
+	document.getElementById("page-analysis").innerHTML += "<center><p>Il y a <b>" + nbr_decla + "</b> phrases déclaratives dans le texte.</p></center>";
+	console.log(nbr_decla);
+	console.log(liste_decla);
+}
+
+
+// Les deux fonctions suivantes n'ont pas abouti. Je préfère tout de même en garder une trace en les laissant en commentaires.
+
+function adverbes()
+{
+	// let display = document.getElementById("page-analysis");
+	// let regex_adv = new RegExp('\\b\\w+e?ment\\b', "g");
+	// let text = document.getElementById"fileDisplayArea").innerText;
+	// text_lines = text.split(new RegExp("[\\r\\n]+")).filter(x => x.trim() != '');
+	// let tableaux_adv = "";
+	// tableaux_adv += "<tr><td>Indexe</td><td>Forme adverbe</td></tr>";
+	// let indexe = 0;
+	// let adverbe = "";
+	
+	// display.innerHTML = "";
+	
+
+	// if (text.matchAll(regex_adv) != -1) 
+	// {
+		// let adverbe = text.shift();
+		// tableaux_adv += "<tr><td>" + indexe + "</td><td>" + adverbe + "</td></tr>";
+		// display.innerHTML = tableaux_adv;
+		// indexe = indexe + 1 ;
+		// console.log(adverbe);
+			
+			// for(let item in array)
+			// {
+				// adverbe = item[0];
+				// tableaux_adv += "<tr><td>" + indexe + "</td><td>" + item[0] + "</td></tr>";
+				// display.innerHTML = tableaux_adv;
+				// indexe = indexe + 1 ;
+			// }
+	// }
+
+	
+	// for (let line of text_lines)
+	// {
+		// if (line.search(regex_adv) != -1) 
+		// {
+			// let adverbe = line.replaceAll(regex_adv, "$1");
+			// tableaux_adv += "<tr><td>" + indexe + "</td><td>" + adverbe + "</td></tr>";
+			// display.innerHTML = tableaux_adv;
+			// indexe = indexe + 1 ;
+		// }
+	// }
+    
+	// for (let line of text_lines) 
+	// {
+        // if (line.search(regex_adv) != -1) {
+            // let table_adv = document.createElement("table");
+            // table_adv.innerHTML = line.replaceAll(regex_adv, "<tr><td>" + indexe + "</td><td>$1</td></tr>");
+            // display.appendChild(table_adv);
+			// indexe = indexe + 1 ;
+		// }
+	// }
+}
+
+/* matchAll  + for item in array, recupérer item 0
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll */
+
+function nomsPropres()
+{
+	// let display = document.getElementById("page-analysis");
+	// let text = document.getElementById("fileDisplayArea").innerText;
+	// let regex_np = new RegExp('(\b[A-Z][a-z]*\b)', "g");
+	// segmentation();
+	// for (let nomsP of text_tokens)
+	// {
+		// if (nomsP.search(regex_np) != -1)
+		// {
+			// let liste_np = document.createElement("ul");
+			// liste_np.innerHTML = nomsP;
+			// display.appendChild(liste_np);
+		// }
+	// }
+}

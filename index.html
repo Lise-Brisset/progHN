@@ -60,7 +60,7 @@
 			
 			
 			<div id="container">
-				<h1 style="text-align:center;">Analyse des <span style="color:green">données</span> dans un fichier</h1>
+				<h1 style="text-align:center;">Analyse des <span style="color:purple">données</span> dans un fichier</h1>
 
 				<div id="page-wrapper">
 					<div>
@@ -95,7 +95,7 @@
 						<br/>
 						<br/>
 						<!-- <button id="boutonAide" onclick="bouton_aide()">Aide</button> -->
-						<button id="boutonAide" onclick="afficheCacheAide()">Afficher l'aide</button>
+						<button id="boutonAide" onclick="afficheCacheAide()">Cacher l'aide</button>
 						<div id="aide">
 							<p>
 								<center>
@@ -114,6 +114,11 @@
 									<p><a href="https://fr.wikipedia.org/wiki/Grep">grep</a> est une commande historique de Unix ayant cette fonctionnalité. Nous employons ce nom en hommage.</p>
 									<p>Les lignes seront affichées à droite.</p>
 									<p>Le bouton <button onclick="javascript:void(0);">Concordancier</button> vous permettra d'afficher le contexte droite et gauche du pôle sélectionné. Vous devez détailler le pôle et le nombre de caractères de droite et de gauche que vous souhaitez afficher.</p>
+									<h3>Compter le nombre de phrases.</h3>
+									<p>Le bouton <button onclick="javascript:void(0);">Nombre de phrases</button> vous permet de calculer le nombre totale de phrases présentes dans le texte. Il détaille aussi le nombre de phrases par catégories : déclaratives, interrogatives et exclamatives.</p>
+									<h3>Passer le texte entièrement en minuscules ou en majuscules</h3>
+									<p>Le bouton <button onclick="javascript:void(0);">Texte en minuscules</button> bascule tout le texte en <u>minuscles</u>.</p>
+									<p>Le bouton <button onclick="javascript:void(0);">Texte en majuscules</button> bascule tout le texte en <u>majuscules</u>.</p>
 								</center>
 							</p>
 						</div>
@@ -122,9 +127,9 @@
 						<button class="submit" onclick="dictionnaire();"><span>Dictionnaire</span></button>
 						<button class="submit" onclick="grep()"><span>Grep</span></button>
 						<button class="submit" onclick="concordancier()"><span>Concordancier</span></button>
-						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 4</span></button>
-						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 5</span></button>
-						<button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 6</span></button>
+						<button class="submit" onclick="nbrPhrases()"><span>Nombre de phrases</span></button>
+						<button class="submit" onclick="minuscule()"><span>Texte en minuscules</span></button>
+						<button class="submit" onclick="majuscule()"><span>Texte en majuscules</span></button>
 					</p>
 				</div>
 				<div id="logger" style="width:100%"></div>
